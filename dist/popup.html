@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ContextFlow AI</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      width: 500px;
+      min-height: 600px;
+      padding: 0;
+      color: #333;
+    }
+
+    .container {
+      padding: 16px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      background: white;
+      padding: 16px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .header h1 {
+      font-size: 20px;
+      color: #667eea;
+      margin-bottom: 4px;
+    }
+
+    .header p {
+      font-size: 12px;
+      color: #999;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      background: white;
+      padding: 8px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 8px 12px;
+      border: none;
+      background: #f0f0f0;
+      color: #666;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background: #667eea;
+      color: white;
+    }
+
+    .tab-btn:hover {
+      background: #ddd;
+    }
+
+    .tab-btn.active:hover {
+      background: #667eea;
+    }
+
+    .tab-content {
+      display: none;
+      background: white;
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .tab-content.active {
+      display: flex;
+      flex-direction: column;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      resize: vertical;
+      margin-bottom: 12px;
+      min-height: 100px;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #333;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+
+    button {
+      padding: 10px 16px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+
+    button:hover {
+      background: #5568d3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .result {
+      background: #f8f9fa;
+      padding: 12px;
+      border-radius: 8px;
+      border-left: 4px solid #667eea;
+      font-size: 12px;
+      line-height: 1.6;
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 12px;
+    }
+
+    .result.error {
+      border-left-color: #ff6b6b;
+      background: #ffe0e0;
+    }
+
+    .result.success {
+      border-left-color: #51cf66;
+      background: #e7f5e7;
+    }
+
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .spinner {
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #667eea;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .status {
+      font-size: 11px;
+      color: #999;
+      margin-top: 8px;
+    }
+
+    .footer {
+      margin-top: 16px;
+      text-align: center;
+      font-size: 11px;
+      color: #999;
+    }
+
+    a {
+      color: #667eea;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🚀 ContextFlow AI</h1>
+      <p>AI-powered context optimization & coaching</p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="optimizer">Optimize</button>
+      <button class="tab-btn" data-tab="compress">Compress</button>
+      <button class="tab-btn" data-tab="coach">Coach</button>
+      <button class="tab-btn" data-tab="predict">Predict</button>
+    </div>
+
+    <!-- Optimizer Tab -->
+    <div class="tab-content active" id="optimizer">
+      <label>Your Prompt</label>
+      <textarea id="optimizerPrompt" placeholder="Paste your prompt here..."></textarea>
+
+      <label>Conversation History (optional)</label>
+      <textarea id="optimizerHistory" placeholder="Paste relevant conversation context..."></textarea>
+
+      <label>Tier</label>
+      <select id="optimizerTier">
+        <option value="pro">Pro</option>
+        <option value="free">Free</option>
+        <option value="ultimate">Ultimate</option>
+      </select>
+
+      <button id="optimizeBtn">✨ Optimize Prompt</button>
+      <div class="loading" id="optimizerLoading">
+        <div class="spinner"></div>
+      </div>
+      <div class="result" id="optimizerResult"></div>
+    </div>
+
+    <!-- Compress Tab -->
+    <div class="tab-content" id="compress">
+      <label>Conversation to Compress</label>
+      <textarea id="compressText" placeholder="Paste long conversation or context..."></textarea>
+
+      <label>Tier</label>
+      <select id="compressTier">
+        <option value="pro">Pro</option>
+        <option value="free">Free</option>
+        <option value="ultimate">Ultimate</option>
+      </select>
+
+      <button id="compressBtn">📦 Compress Context</button>
+      <div class="loading" id="compressLoading">
+        <div class="spinner"></div>
+      </div>
+      <div class="result" id="compressResult"></div>
+    </div>
+
+    <!-- Coach Tab -->
+    <div class="tab-content" id="coach">
+      <label>Your Draft Message</label>
+      <textarea id="coachDraft" placeholder="Paste your draft..."></textarea>
+
+      <label>Conversation History (optional)</label>
+      <textarea id="coachHistory" placeholder="Paste relevant context..."></textarea>
+
+      <label>Recipient Name (optional)</label>
+      <input type="text" id="coachRecipient" placeholder="e.g., John Doe" />
+
+      <label>Recipient Role (optional)</label>
+      <input type="text" id="coachRole" placeholder="e.g., Product Manager" />
+
+      <button id="coachBtn">💡 Get Coaching</button>
+      <div class="loading" id="coachLoading">
+        <div class="spinner"></div>
+      </div>
+      <div class="result" id="coachResult"></div>
+    </div>
+
+    <!-- Predict Tab -->
+    <div class="tab-content" id="predict">
+      <label>Draft Message to Analyze</label>
+      <textarea id="predictDraft" placeholder="Paste your draft..."></textarea>
+
+      <label>Conversation History (optional)</label>
+      <textarea id="predictHistory" placeholder="Paste relevant context..."></textarea>
+
+      <label>Recipient Name (optional)</label>
+      <input type="text" id="predictRecipient" placeholder="e.g., John Doe" />
+
+      <label>Recipient Role (optional)</label>
+      <input type="text" id="predictRole" placeholder="e.g., VP Sales" />
+
+      <button id="predictBtn">🔮 Predict Response</button>
+      <div class="loading" id="predictLoading">
+        <div class="spinner"></div>
+      </div>
+      <div class="result" id="predictResult"></div>
+    </div>
+
+    <div class="footer">
+      <p>
+        <a href="#" id="settingsLink">⚙️ Settings</a> |
+        <a href="#" id="helpLink">❓ Help</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

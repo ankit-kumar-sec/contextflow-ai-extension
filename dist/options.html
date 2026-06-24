@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ContextFlow AI - Settings</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+    }
+
+    h1 {
+      color: #667eea;
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+
+    .subtitle {
+      color: #999;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .section {
+      margin-bottom: 40px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .section:last-child {
+      border-bottom: none;
+    }
+
+    h2 {
+      color: #333;
+      font-size: 18px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-description {
+      color: #666;
+      font-size: 13px;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 6px;
+    }
+
+    input[type='text'],
+    input[type='password'],
+    input[type='url'],
+    input[type='number'],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 13px;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+
+    input[type='text']:focus,
+    input[type='password']:focus,
+    input[type='url']:focus,
+    input[type='number']:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    input[type='checkbox'] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .help-text {
+      font-size: 12px;
+      color: #999;
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: #667eea;
+      color: white;
+      flex: 1;
+    }
+
+    .btn-primary:hover {
+      background: #5568d3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-secondary {
+      background: #f0f0f0;
+      color: #333;
+      flex: 1;
+    }
+
+    .btn-secondary:hover {
+      background: #e0e0e0;
+    }
+
+    .btn-danger {
+      background: #ff6b6b;
+      color: white;
+      flex: 1;
+    }
+
+    .btn-danger:hover {
+      background: #ff5252;
+    }
+
+    .status-message {
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    .status-message.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+      display: block;
+    }
+
+    .status-message.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+      display: block;
+    }
+
+    .tier-selector {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .tier-option {
+      flex: 1;
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: white;
+    }
+
+    .tier-option:hover {
+      border-color: #667eea;
+    }
+
+    .tier-option.selected {
+      border-color: #667eea;
+      background: #f0f4ff;
+      color: #667eea;
+      font-weight: 600;
+    }
+
+    .tier-label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .tier-price {
+      display: block;
+      font-size: 11px;
+      color: #999;
+    }
+
+    .divider {
+      height: 1px;
+      background: #eee;
+      margin: 30px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>⚙️ ContextFlow AI Settings</h1>
+    <p class="subtitle">Configure your AI optimization experience</p>
+
+    <div id="statusMessage" class="status-message"></div>
+
+    <!-- API Configuration -->
+    <div class="section">
+      <h2>🔌 API Configuration</h2>
+      <p class="section-description">Configure your backend API endpoint and authentication key.</p>
+
+      <div class="form-group">
+        <label>Backend API URL</label>
+        <input type="url" id="apiUrl" placeholder="https://api.contextflow.ai/v1" />
+        <div class="help-text">The secure backend proxy URL for LLM requests.</div>
+      </div>
+
+      <div class="form-group">
+        <label>API Key</label>
+        <input type="password" id="apiKey" placeholder="Enter your secure API key" />
+        <div class="help-text">Never shared with third parties. Stored securely in chrome.storage.local.</div>
+      </div>
+
+      <div class="form-group">
+        <label>LLM Model</label>
+        <select id="llmModel">
+          <option value="gpt-4">GPT-4 (Recommended)</option>
+          <option value="gpt-4-turbo">GPT-4 Turbo</option>
+          <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+          <option value="claude-3-opus">Claude 3 Opus</option>
+          <option value="claude-3-sonnet">Claude 3 Sonnet</option>
+        </select>
+        <div class="help-text">Select the LLM model for optimization services.</div>
+      </div>
+    </div>
+
+    <!-- Workspace Tier -->
+    <div class="section">
+      <h2>📊 Workspace Tier</h2>
+      <p class="section-description">Choose your feature tier to control advanced capabilities.</p>
+
+      <div class="tier-selector">
+        <div class="tier-option" data-tier="free">
+          <span class="tier-label">Free</span>
+          <span class="tier-price">Basic features</span>
+        </div>
+        <div class="tier-option" data-tier="pro">
+          <span class="tier-label">Pro</span>
+          <span class="tier-price">Advanced features</span>
+        </div>
+        <div class="tier-option" data-tier="ultimate">
+          <span class="tier-label">Ultimate</span>
+          <span class="tier-price">All features</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Privacy & Data -->
+    <div class="section">
+      <h2>🔒 Privacy & Data</h2>
+      <p class="section-description">Control how your data is stored and processed.</p>
+
+      <div class="form-group">
+        <label>Data Retention (days)</label>
+        <input type="number" id="dataRetention" min="1" max="365" value="90" />
+        <div class="help-text">Conversation history older than this will be automatically deleted.</div>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="anonymizeLogs" />
+        <label for="anonymizeLogs" style="margin-bottom: 0">Anonymize logs and error messages</label>
+      </div>
+      <div class="help-text">Removes personally identifiable information from logs.</div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="incognitoMode" />
+        <label for="incognitoMode" style="margin-bottom: 0">Disable in Incognito mode</label>
+      </div>
+      <div class="help-text">Extension will not collect data in private browsing.</div>
+
+      <div class="divider"></div>
+
+      <h3 style="color: #d32f2f; margin-top: 20px; margin-bottom: 10px">⚠️ Danger Zone</h3>
+
+      <button class="btn-danger" id="deleteDataBtn">🗑️ Delete All Local Data</button>
+      <div class="help-text">Permanently removes all stored conversations and preferences from this device.</div>
+    </div>
+
+    <!-- Notification & Behavior -->
+    <div class="section">
+      <h2>🔔 Behavior & Notifications</h2>
+      <p class="section-description">Configure how the extension behaves.</p>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="showNotifications" checked />
+        <label for="showNotifications" style="margin-bottom: 0">Show completion notifications</label>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="autoOptimize" />
+        <label for="autoOptimize" style="margin-bottom: 0">Auto-optimize on context switch</label>
+      </div>
+      <div class="help-text">Automatically optimize prompts when you switch between AI platforms.</div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="enableAnalytics" checked />
+        <label for="enableAnalytics" style="margin-bottom: 0">Help improve ContextFlow (anonymous analytics)</label>
+      </div>
+      <div class="help-text">Send anonymous usage data to help us improve the product.</div>
+    </div>
+
+    <!-- About & Legal -->
+    <div class="section">
+      <h2>ℹ️ About & Legal</h2>
+      <p class="section-description">Version 0.1.0 | Last updated June 24, 2026</p>
+
+      <button class="btn-secondary" id="privacyBtn">📋 Privacy Policy</button>
+      <button class="btn-secondary" id="termsBtn">📄 Terms of Service</button>
+      <button class="btn-secondary" id="contactBtn">📧 Contact Support</button>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="button-group">
+      <button class="btn-primary" id="saveBtn">💾 Save Settings</button>
+      <button class="btn-secondary" id="resetBtn">↺ Reset to Defaults</button>
+    </div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
